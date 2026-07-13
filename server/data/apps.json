@@ -1,0 +1,13 @@
+{
+  "apps": [
+    {
+      "id": "4ce33d07-9667-4c99-a1e2-7205f8fcdae1",
+      "name": "Libreria de videojuegos",
+      "description": "",
+      "url": "http://localhost:5173",
+      "screenshot": "",
+      "createdAt": "2026-07-13T21:27:56.745Z",
+      "updatedAt": "2026-07-13T21:28:11.605Z"
+    }
+  ]
+}
