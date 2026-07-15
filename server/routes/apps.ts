@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import multer from 'multer'
+import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createApp } from '../types.ts'
@@ -9,7 +10,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const uploadDir = path.join(__dirname, '..', 'uploads', 'screenshots')
 
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, uploadDir),
+  destination: (_req, _file, cb) => {
+    fs.mkdirSync(uploadDir, { recursive: true })
+    cb(null, uploadDir)
+  },
   filename: (_req, file, cb) => {
     const ext = path.extname(file.originalname)
     cb(null, `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`)
