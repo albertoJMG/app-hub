@@ -12,7 +12,8 @@ const isProd = process.env.NODE_ENV === 'production'
 app.use(cors())
 app.use(express.json())
 
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')))
+const uploadsDir = path.join(__dirname, 'uploads')
+app.use('/uploads', express.static(uploadsDir))
 app.use('/api/apps', appsRouter)
 
 if (isProd) {

@@ -6,8 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { createApp } from '../types.ts'
 import { getAllApps, addApp, updateApp, deleteApp } from '../store.ts'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const uploadDir = path.join(__dirname, '..', 'uploads', 'screenshots')
+const uploadDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'uploads', 'screenshots')
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
