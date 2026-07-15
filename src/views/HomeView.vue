@@ -29,38 +29,46 @@
       </div>
     </header>
 
-    <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6">
-      <div v-if="loading" class="flex justify-center py-20">
-        <Loader2 class="h-8 w-8 animate-spin text-indigo-600" />
+    <main class="mx-auto flex max-w-7xl gap-6 px-4 py-8 sm:px-6">
+      <div class="min-w-0 flex-1">
+        <div v-if="loading" class="flex justify-center py-20">
+          <Loader2 class="h-8 w-8 animate-spin text-indigo-600" />
+        </div>
+
+        <EmptyState
+          v-else-if="filteredApps.length === 0 && !search"
+          title="No hay aplicaciones"
+          description="Aún no se han añadido aplicaciones al hub. Ve al panel de administración para añadir la primera."
+        >
+          <router-link
+            to="/admin"
+            class="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+          >
+            <Plus class="h-4 w-4" />
+            Añadir aplicación
+          </router-link>
+        </EmptyState>
+
+        <EmptyState
+          v-else-if="filteredApps.length === 0 && search"
+          title="Sin resultados"
+          :description="`No se encontraron aplicaciones para '${search}'`"
+        />
+
+        <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <AppCard
+            v-for="app in filteredApps"
+            :key="app.id"
+            :app="app"
+            @open="openApp"
+          />
+        </div>
       </div>
 
-      <EmptyState
-        v-else-if="filteredApps.length === 0 && !search"
-        title="No hay aplicaciones"
-        description="Aún no se han añadido aplicaciones al hub. Ve al panel de administración para añadir la primera."
-      >
-        <router-link
-          to="/admin"
-          class="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
-        >
-          <Plus class="h-4 w-4" />
-          Añadir aplicación
-        </router-link>
-      </EmptyState>
-
-      <EmptyState
-        v-else-if="filteredApps.length === 0 && search"
-        title="Sin resultados"
-        :description="`No se encontraron aplicaciones para '${search}'`"
-      />
-
-      <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <AppCard
-          v-for="app in filteredApps"
-          :key="app.id"
-          :app="app"
-          @open="openApp"
-        />
+      <div class="hidden w-72 shrink-0 lg:block">
+        <div class="sticky top-24">
+          <SystemPanel />
+        </div>
       </div>
     </main>
   </div>
@@ -71,6 +79,7 @@ import { ref, computed, onMounted } from 'vue'
 import { Search, Settings, Plus, Loader2 } from '@lucide/vue'
 import AppCard from '../components/AppCard.vue'
 import EmptyState from '../components/EmptyState.vue'
+import SystemPanel from '../components/SystemPanel.vue'
 import { useApps } from '../composables/useApps.ts'
 import type { App } from '../types/app.ts'
 

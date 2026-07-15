@@ -3,6 +3,7 @@ import cors from 'cors'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import appsRouter from './routes/apps.ts'
+import systemRouter from './routes/system.ts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -15,6 +16,7 @@ app.use(express.json())
 const uploadsDir = path.join(__dirname, 'uploads')
 app.use('/uploads', express.static(uploadsDir))
 app.use('/api/apps', appsRouter)
+app.use('/api/system', systemRouter)
 
 if (isProd) {
   const distPath = path.join(__dirname, '..', 'dist')
